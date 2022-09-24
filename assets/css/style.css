@@ -1,0 +1,207 @@
+@import url('https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    position: relative;
+}
+
+body {
+    font-family: "Albert Sans", sans-serif;
+    height: 100vh;
+    background: rgb(246, 245, 247);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#auth_container {
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.3);
+    position: relative;
+    width: 800px;
+    max-width: 100%;
+    min-height: 480px;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.welcome-container {
+    display:grid;
+    place-items: center;
+}
+
+h1 {
+    font-size: 50px;
+    display: block;
+}
+
+form {
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 50px;
+    height: 100%;
+}
+
+.form-container {
+    position: absolute;
+    height: 100%;
+    transition: all 0.6s ease-in-out;
+    width: 50%;
+}
+
+.sign-in-container {
+    z-index: 2;
+}
+
+.sign-up-container {
+    opacity: 0;
+    z-index: 1;
+}
+
+#auth_container.non-registered .sign-in-container {
+    transform: translateX(100%);
+}
+
+#auth_container.non-registered .sign-up-container {
+    transform: translateX(100%);
+    opacity: 1;
+    z-index: 5;
+    animation: show 0.6s;
+}
+
+@keyframes show {
+
+    0%,
+    49.99% {
+        opacity: 0;
+        z-index: 1;
+    }
+
+    50%,
+    100% {
+        opacity: 1;
+        z-index: 5;
+    }
+}
+
+.overlay-container {
+    position: absolute;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    transition: transform 0.6s ease-in-out;
+    z-index: 100;
+}
+
+#auth_container.non-registered .overlay-container {
+    transform: translateX(-100%);
+}
+
+.overlay {
+    background: rgb(28, 28, 28);
+    color: white;
+    position: relative;
+    right: 100%;
+    height: 100%;
+    width: 200%;
+    transform: translateX(0);
+    transition: transform 0.6s ease-in-out;
+}
+
+#auth_container.non-registered .overlay {
+    transform: translateX(50%);
+}
+
+.overlay-panel {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 50%;
+    transform: translateX(0);
+    transition: transform 0.6s ease-in-out;
+}
+
+.overlay-left {
+    transform: translateX(-20%);
+}
+
+#auth_container.non-registered .overlay-left {
+    transform: translateX(0);
+}
+
+.overlay-right {
+    right: 0;
+    transform: translateX(0);
+}
+
+#auth_container.non-registered .overlay-right {
+    transform: translateX(20%);
+}
+
+input[type=text],
+input[type=password],
+input[type=email] {
+    font-family: inherit;
+    border: 1px solid rgb(204, 204, 204);
+    padding: 12px 15px;
+    margin: 7px 0;
+    width: 100%;
+}
+
+button {
+    font-family: inherit;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 12px 45px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: transform 0.8s ease-in;
+}
+
+.submit {
+    margin-top: 5%;
+    border: 1px solid white;
+    background-color: rgb(28, 28, 28);
+    color: white;
+}
+
+.overlay-btn {
+    border: 1px solid white;
+    background-color: white;
+    color: rgb(28, 28, 28);
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+button:focus {
+    outline: none;
+}
+
+button.overlay-btn:hover {
+    background: rgb(227, 227, 227);
+}
+
+button.submit:hover {
+    background: rgb(56, 56, 56);
+}
+
+.flash {
+    color: red;
+    font-size: 11px;
+    font-weight: 600;
+}
