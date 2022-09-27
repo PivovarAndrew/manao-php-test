@@ -9,8 +9,7 @@ class JsonDB
 
     public function __construct($fileName)
     {
-        $this->fileName = $fileName;
-        $this->databasePath = $_SERVER['DOCUMENT_ROOT'] . $this->DB_FOLDER . DIRECTORY_SEPARATOR . $this->getFileName();
+        $this->setFileName($fileName);
     }
 
     public function getFileName()
@@ -21,6 +20,7 @@ class JsonDB
     public function setFileName($fileName)
     {
         $this->fileName = $fileName;
+        $this->databasePath = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . $this->DB_FOLDER . DIRECTORY_SEPARATOR . $this->getFileName();
     }
 
     public function getDatabasePath()
@@ -30,12 +30,12 @@ class JsonDB
 
     public function isEmpty()
     {
-        return filesize($this->getDatabasePath()) == 0;
+        return file_exists($this->getDatabasePath()) ? filesize($this->getDatabasePath()) == 0 : false;
     }
 
     public function getData()
     {
-        if (!$this->isEmpty() && file_exists($this->getDatabasePath())) {
+        if (!$this->isEmpty()) {
             return json_decode(file_get_contents($this->getDatabasePath()));
         } else {
             return [];

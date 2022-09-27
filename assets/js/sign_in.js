@@ -12,7 +12,6 @@ function signIn(user) {
         },
 
         success(data) {
-            console.log(data)
             if ($('form', $('<div/>').html(data)).length > 0) {
                 $('.sign-in-container').html(data)
             } else {

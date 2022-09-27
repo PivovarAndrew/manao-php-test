@@ -1,5 +1,4 @@
 function signUp(user) {
-    console.log(user)
     $.ajax({
         url: 'controllers/users_controller.php',
         beforeSend: function (xhr) { xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content')) },
@@ -16,7 +15,6 @@ function signUp(user) {
         },
 
         success(data) {
-            console.log(data)
             if ($('form', $('<div/>').html(data)).length > 0) {
                 $('.sign-up-container').html(data)
             } else {

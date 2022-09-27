@@ -20,7 +20,11 @@
 </noscript>
 
 <body>
-	<?php include_once 'app.php' ?>
+	<?php
+		ob_start();
+		include_once 'app.php';
+		ob_end_flush();
+	?>
 </body>
 
 </html>
