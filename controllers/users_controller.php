@@ -37,69 +37,69 @@ class UsersController
         if ($user->getEmail()) {
             if ($user->emailValidation()) {
                 if (!$user->checkEmailUniqueness($this->db->getData())) {
-                    flash('email', "User with the same email exists.");
+                    flash('sign_up', 'email', "User with the same email exists.");
                 }
             } else {
-                flash('email', "Incorrect email format");
+                flash('sign_up', 'email', "Incorrect email format");
             }
         } else {
 
-            flash('email', "Email is required field.");
+            flash('sign_up', 'email', "Email is required field.");
         }
 
         if ($user->getLogin()) {
             if ($user->loginLengthValidation()) {
                 if ($user->loginWhiteSpacesValidation()) {
                     if (!$user->checkLoginUniqueness($this->db->getData())) {
-                        flash('login', "User with the same login exists.");
+                        flash('sign_up', 'login', "User with the same login exists.");
                     }
                 } else {
-                    flash('login', "Login must not contain whitespaces.");
+                    flash('sign_up', 'login', "Login must not contain whitespaces.");
                 }
             } else {
-                flash('login', "Login is too short.");
+                flash('sign_up', 'login', "Login is too short.");
             }
         } else {
-            flash('login', "Login is required field.");
+            flash('sign_up', 'login', "Login is required field.");
         }
 
         if ($user->getName()) {
             if ($user->nameLengthValidation()) {
                 if (!$user->nameContentValidation()) {
-                    flash('name', "Name must contain only letters.");
+                    flash('sign_up', 'name', "Name must contain only letters.");
                 }
             } else {
-                flash('name', "Name is too short.");
+                flash('sign_up', 'name', "Name is too short.");
             }
         } else {
-            flash('name', "Name is required field.");
+            flash('sign_up', 'name', "Name is required field.");
         }
 
         if ($user->getPassword()) {
             if ($user->passwordLengthValidation()) {
                 if ($user->passwordWhitespacesValidation()) {
                     if (!$user->passwordContentValidation()) {
-                        flash('password', "Password must contain letters and numbers.");
+                        flash('sign_up', 'password', "Password must contain letters and numbers.");
                     }
                 } else {
-                    flash('password', "Password must not contain whitespaces.");
+                    flash('sign_up', 'password', "Password must not contain whitespaces.");
                 }
             } else {
-                flash('password', "Password is too short.");
+                flash('sign_up', 'password', "Password is too short.");
             }
         } else {
-            flash('password', "Password is required field.");
+            flash('sign_up', 'password', "Password is required field.");
         }
 
         if ($user->getPasswordConfirm()) {
             if (!$user->passwordConfirmValidation()) {
-                flash('password_confirm', "Passwords don't match");
+                flash('sign_up', 'password_confirm', "Passwords don't match");
             }
         } else {
-            flash('password_confirm', "Password confirmation is required field.");
+            flash('sign_up', 'password_confirm', "Password confirmation is required field.");
         }
 
-        if (!$_SESSION['flashes']) {
+        if (!$_SESSION['flashes'][$_POST["type"]]) {
             $salt = sha1(microtime() . $user->getPassword());
             $this->db->addItem([
                 'email' => $user->getEmail(),
@@ -110,10 +110,10 @@ class UsersController
             ]);
             $_SESSION['logged_in'] = true;
             setcookie('user_name', $user->getName(), time() + Cookie::$COOKIE_LIFETIME, Cookie::$COOKIE_DEFAULT_PATH);
-            redirect("../app.php");
+            echo json_encode(["success" => true]);
         } else {
             Input::rememberFields($_POST);
-            redirect("../sign_up.php");
+            echo json_encode(["success" => false]);
         }
     }
 
@@ -128,28 +128,28 @@ class UsersController
             Input::validateData($_POST['password']),
             null
         );
-
         if ($user->getLogin()) {
             if ($user->checkLoginUniqueness($this->db->getData())) {
-                flash('login', "This user doesn't exist. Please sign up.");
+                flash('sign_in', 'login', "This user doesn't exist. Please sign up.");
             }
         } else {
-            flash('login', "Login is required field.");
+            flash('sign_in', 'login', "Login is required field.");
         }
 
         if ($user->getPassword()) {
             if (!$user->checkPassword($this->db->getData())) {
-                flash('password', "Wrong password.");
+                flash('sign_in', 'password', "Wrong password.");
             }
         } else {
-            flash('password', "Password is required field.");
+            flash('sign_in', 'password', "Password is required field.");
         }
 
-        if (!$_SESSION['flashes']) {
+        if (!$_SESSION['flashes'][$_POST["type"]]) {
             $_SESSION['logged_in'] = true;
-            redirect("../app.php");
+            echo json_encode(["success" => true]);
         } else {
-            redirect("../sign_in.php");
+            Input::rememberFields($_POST);
+            echo json_encode(["success" => false]);
         }
     }
 
@@ -157,7 +157,7 @@ class UsersController
     {
         unset($_SESSION['logged_in']);
         session_destroy();
-        redirect("../app.php");
+        echo 0;
     }
 }
 

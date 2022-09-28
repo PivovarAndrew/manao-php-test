@@ -3,7 +3,7 @@ function signUp(user) {
         url: 'controllers/users_controller.php',
         beforeSend: function (xhr) { xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content')) },
         type: 'POST',
-        dataType: 'text',
+        dataType: 'json',
         data:
         {
             type: "sign_up",
@@ -15,10 +15,10 @@ function signUp(user) {
         },
 
         success(data) {
-            if ($('form', $('<div/>').html(data)).length > 0) {
-                $('.sign-up-container').html(data)
+            if (data.success) {
+                location.reload();
             } else {
-                $('body').html(data);
+                $('.sign-up-container').load(' .sign-up-container > *')
             }
         }
     });

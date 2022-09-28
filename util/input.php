@@ -13,7 +13,7 @@ class Input
     public static function rememberFields($post)
     {
         foreach ($post as $key => $value) {
-            $_SESSION[$key . "_value"] = $value;
+            $_SESSION[$post["type"] . "_" . $key . "_value"] = $value;
         }
     }
 }
