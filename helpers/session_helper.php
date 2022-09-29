@@ -25,4 +25,5 @@ function flash($type = 'common', $name = '', $message = '', $class = 'flash')
 function redirect($location)
 {
     header('Location:' . $location);
+    die();
 }

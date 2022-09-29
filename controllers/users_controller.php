@@ -37,66 +37,66 @@ class UsersController
         if ($user->getEmail()) {
             if ($user->emailValidation()) {
                 if (!$user->checkEmailUniqueness($this->db->getData())) {
-                    flash('sign_up', 'email', "User with the same email exists.");
+                    flash($_POST['type'], 'email', "User with the same email exists.");
                 }
             } else {
-                flash('sign_up', 'email', "Incorrect email format");
+                flash($_POST['type'], 'email', "Incorrect email format");
             }
         } else {
 
-            flash('sign_up', 'email', "Email is required field.");
+            flash($_POST['type'], 'email', "Email is required field.");
         }
 
         if ($user->getLogin()) {
             if ($user->loginLengthValidation()) {
                 if ($user->loginWhiteSpacesValidation()) {
                     if (!$user->checkLoginUniqueness($this->db->getData())) {
-                        flash('sign_up', 'login', "User with the same login exists.");
+                        flash($_POST['type'], 'login', "User with the same login exists.");
                     }
                 } else {
-                    flash('sign_up', 'login', "Login must not contain whitespaces.");
+                    flash($_POST['type'], 'login', "Login must not contain whitespaces.");
                 }
             } else {
-                flash('sign_up', 'login', "Login is too short.");
+                flash($_POST['type'], 'login', "Login is too short.");
             }
         } else {
-            flash('sign_up', 'login', "Login is required field.");
+            flash($_POST['type'], 'login', "Login is required field.");
         }
 
         if ($user->getName()) {
             if ($user->nameLengthValidation()) {
                 if (!$user->nameContentValidation()) {
-                    flash('sign_up', 'name', "Name must contain only letters.");
+                    flash($_POST['type'], 'name', "Name must contain only letters.");
                 }
             } else {
-                flash('sign_up', 'name', "Name is too short.");
+                flash($_POST['type'], 'name', "Name is too short.");
             }
         } else {
-            flash('sign_up', 'name', "Name is required field.");
+            flash($_POST['type'], 'name', "Name is required field.");
         }
 
         if ($user->getPassword()) {
             if ($user->passwordLengthValidation()) {
                 if ($user->passwordWhitespacesValidation()) {
                     if (!$user->passwordContentValidation()) {
-                        flash('sign_up', 'password', "Password must contain letters and numbers.");
+                        flash($_POST['type'], 'password', "Password must contain letters and numbers.");
                     }
                 } else {
-                    flash('sign_up', 'password', "Password must not contain whitespaces.");
+                    flash($_POST['type'], 'password', "Password must not contain whitespaces.");
                 }
             } else {
-                flash('sign_up', 'password', "Password is too short.");
+                flash($_POST['type'], 'password', "Password is too short.");
             }
         } else {
-            flash('sign_up', 'password', "Password is required field.");
+            flash($_POST['type'], 'password', "Password is required field.");
         }
 
         if ($user->getPasswordConfirm()) {
             if (!$user->passwordConfirmValidation()) {
-                flash('sign_up', 'password_confirm', "Passwords don't match");
+                flash($_POST['type'], 'password_confirm', "Passwords don't match");
             }
         } else {
-            flash('sign_up', 'password_confirm', "Password confirmation is required field.");
+            flash($_POST['type'], 'password_confirm', "Password confirmation is required field.");
         }
 
         if (!$_SESSION['flashes'][$_POST["type"]]) {
@@ -130,18 +130,18 @@ class UsersController
         );
         if ($user->getLogin()) {
             if ($user->checkLoginUniqueness($this->db->getData())) {
-                flash('sign_in', 'login', "This user doesn't exist. Please sign up.");
+                flash($_POST['type'], 'login', "This user doesn't exist. Please sign up.");
             }
         } else {
-            flash('sign_in', 'login', "Login is required field.");
+            flash($_POST['type'], 'login', "Login is required field.");
         }
 
         if ($user->getPassword()) {
             if (!$user->checkPassword($this->db->getData())) {
-                flash('sign_in', 'password', "Wrong password.");
+                flash($_POST['type'], 'password', "Wrong password.");
             }
         } else {
-            flash('sign_in', 'password', "Password is required field.");
+            flash($_POST['type'], 'password', "Password is required field.");
         }
 
         if (!$_SESSION['flashes'][$_POST["type"]]) {
